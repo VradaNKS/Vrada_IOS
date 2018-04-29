@@ -45,6 +45,8 @@ import FormPicker from './components/Module/FormPicker'
 import WCTB11 from './components/Module/WCTB11'
 
 const Stack = StackNavigator({
+    CTB10:{screen:CTB10},
+    
     CTB18:{screen:CTB18},
     
     CTB17:{screen:CTB17},
@@ -61,7 +63,6 @@ const Stack = StackNavigator({
     
     WCTB11:{screen:WCTB11},
     // Maps:{screen:Maps},
-    CTB10:{screen:CTB10},
     
     CTB11:{screen:CTB11},
     
