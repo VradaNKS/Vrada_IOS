@@ -38,23 +38,36 @@ import CTB30 from './components/V-Tour/CTB30'
 import CTB16 from './components/V-Tour/CTB16'
 import CTB17 from './components/V-Tour/CTB17'
 import CTB18 from './components/V-Tour/CTB18'
-import Maps from './components/V-Tour/Maps'
+// import Maps from './components/V-Tour/Maps'
 import TabChoose from './components/Module/TabChoose'
 import Drawer from './components/DrawerNav'
+import FormPicker from './components/Module/FormPicker'
+import WCTB11 from './components/Module/WCTB11'
+
 const Stack = StackNavigator({
-    // PickLocation:{screen:PickLocation},
+    CTB18:{screen:CTB18},
+    
+    CTB17:{screen:CTB17},
+    
+    CTB16:{screen:CTB16},
+    
+    CTB30:{screen:CTB30},
+    
+    CTB14:{screen:CTB14},
+    
+    CTB13:{screen:CTB13},
+    
+    CTB12:{screen:CTB12},
+    
+    WCTB11:{screen:WCTB11},
+    // Maps:{screen:Maps},
     CTB10:{screen:CTB10},
     
-    Drawer:{screen:Drawer},
-    CTB12:{screen:CTB12},
     CTB11:{screen:CTB11},
-    CTB18:{screen:CTB18},
-    CTB17:{screen:CTB17},
-    CTB16:{screen:CTB16},
-    CTB30:{screen:CTB30},
-    CTB14:{screen:CTB14},
-    CTB13:{screen:CTB13},
-    Maps:{screen:Maps},
+    
+     // FormPicker:{scr  een:FormPicker},
+    
+    Drawer:{screen:Drawer},
     Login:{
         screen:Login,
         navigationOptions: { header: null}

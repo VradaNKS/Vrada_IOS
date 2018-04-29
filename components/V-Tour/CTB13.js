@@ -108,34 +108,37 @@ export default class CTB13 extends React.Component{
     render(){
         return(
             <Container >
+            <ScrollView>
                 <StatusBar 
                 backgroundColor="#008D44"
                 barStyle='light-content' />
                <View style={styles.header}>
                     <View style={{
-                        height:'100%',
+                        height:'70%',
                         justifyContent:'center',
-                        alignItems:'center'
+                        alignItems:'center',
+                        position:'absolute',
+                        left:10,
+                        bottom:0
                     }}>
-                    <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate("Home")}
-                            transparent>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Home")}>
                             <Image
-                                style={{tintColor:mainColor}} 
+                                style={{tintColor:'white'}} 
                                 source={require('../../source/icons/backbutton.png')} />
                         </TouchableOpacity>
                     </View>
                     <View style={{
                         width:300,
-                        position:'relative',
-                        left:10,
-                        justifyContent:'center',
-                        
+                        position:'absolute',
+                        left:50,
+                        height:'70%',
+                        bottom:0,
+                        justifyContent:'center'                        
                     }}>
                         <Text style={{
                             fontWeight:'bold',
                             fontSize:24,
-                            color:mainColor,
+                            color:'white',
                         }}>Thông tin tài xế</Text>
                     </View>
                 </View>
@@ -145,7 +148,6 @@ export default class CTB13 extends React.Component{
                         backgroundColor:'white',
                         zIndex:-100,
                 }}>
-                    <ScrollView>
                     <View style={infoDiver.viewBR}>
                             <Image
                             style={infoDiver.br}
@@ -188,7 +190,15 @@ export default class CTB13 extends React.Component{
                         </View>
                     </View>
                     
-                    <SwiperSilde/>
+                    <View style = {{
+                        height:200,
+                        width:'100%',
+                        marginBottom:10
+                        }}>
+
+                        <SwiperSilde/>
+                        
+                    </View>
 
                     <View style={detailService.ContainerForm}>
                         <View style={detailService.row1}>
@@ -235,9 +245,8 @@ export default class CTB13 extends React.Component{
                         </View>
                     </View>
 
-                    </ScrollView>
                 </View>
-                
+                </ScrollView>
             </Container>
         );
     }
@@ -256,7 +265,7 @@ class SwiperSilde extends React.Component{
                     source={require('../../source/images/img_car.png')}
                     style={{
                         width:defaultWidth-10,
-                        height:height*(20/100),
+                        height:height*(25/100),
                         alignSelf:'center'
                     }}
                 />
@@ -265,7 +274,7 @@ class SwiperSilde extends React.Component{
                     source={require('../../source/images/img_car.png')}
                     style={{
                         width:defaultWidth-10,
-                        height:height*(20/100),
+                        height:height*(25/100),
                         alignSelf:'center'
                         
                     }}
@@ -285,7 +294,7 @@ const colorTXT = '#686868'
 const ContainerSwiper={
     ContainerForm:{
         backgroundColor:'white',
-        height:150,
+        height:200,
         flexDirection:'row',
         alignSelf: 'center',
         justifyContent:'center',
@@ -293,7 +302,7 @@ const ContainerSwiper={
         marginTop:10,
     },
     wrapper: {
-        height:400,
+        height:200,
         justifyContent:'center',
         alignItems:'center'
     },
@@ -337,7 +346,7 @@ const detailService ={
     ContainerForm:{
         backgroundColor:'white',
         width:defaultWidth,
-        height:130,
+        height:100,
         borderWidth: 1,
         borderRadius: 5,
         borderColor: '#ddd',
@@ -427,12 +436,13 @@ const styles=StyleSheet.create({
         flexDirection: 'column',
     },
     header:{
-        // backgroundColor: '#f2f2f2' ,
+        backgroundColor: mainColor ,
         justifyContent:'center',
         height:'10%',
         flexDirection:'row',
         position:'absolute',
         top:0,
         zIndex:999,
+        width:'100%'
     },
 })

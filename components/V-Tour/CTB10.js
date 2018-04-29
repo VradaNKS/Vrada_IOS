@@ -29,6 +29,8 @@ import {
 import Btn from '../Module/Btn'
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
+import FormPicker from '../Module/FormPicker'
+import SimplePicker from 'react-native-simple-picker';
 
 const SECTIONS = [
     {
@@ -41,8 +43,43 @@ const SECTIONS = [
     }
   ];
 
-import Maps from './Maps'
+var status = ''
+var fromLat =  ''
+var fromLong = ''
+var addFrom ='Điểm đón',addTo='Điểm đến'
+var fromNum = '',
+ fromStreet ='',
+ fromWard = '',
+ fromDistrict = '',
+ fromProvince ='',
+ fromCountry = ''
 
+var toLat = ''
+var toLong = ''
+
+var toNum = '',
+ toStreet ='',
+ toWard = '',
+ toDistrict = '',
+ toProvince ='',
+ toCountry = ''
+
+var request=''
+
+var lat= ''
+var long =''
+var num = '',street='',ward='',district='',province='',country=''
+var id = ''
+var route_no = ''
+
+const TypeLabel = ['Personal', 'Business', 'Travel']
+var borderOneWay = 1.5
+var colorOneWay = 'gray'
+
+var borderReturn = 1.5
+var colorReturn = 'gray'
+
+var opacityBackDay = 1
 export default class CTB10 extends React.Component{
 
     constructor(props){
@@ -53,8 +90,13 @@ export default class CTB10 extends React.Component{
             icRed:require('../../source/icons/ic_location_pink.png'),
             icYellow:require('../../source/icons/ic_location_yellow.png'),
             plFrom1:'Nhập địa chỉ của bạn',
-            plFrom2:'Nhập điểm đến 1',
+            plFrom2:'Nhập điểm đến',
             plFrom3:'Nhập điểm đến 2',
+            
+            fromDate:'2018-08-23',
+            backDate:'2018-10-30',
+            fromTime:'08:00:00',
+            backTime:'03:00:00',
 
             line1:'',
             line2:'',
@@ -75,12 +117,48 @@ export default class CTB10 extends React.Component{
             noteIC:require('../../source/icons/ic_notepad.png'),
             plNote:'Ghi chú cho tài xế',
             note:'',
-
+            selectedTransport:'Chọn xe',
+            selectedType:'Phân khúc',
+            backDayChoosed:'auto',
            
 
         }
     }
     
+    componentWillMount(){
+
+        var {state}=this.props.navigation
+        request = state.params.answer
+        lat = state.params.lat
+        long = state.params.long
+        num = state.params.num
+        street = state.params.street
+        ward = state.params.ward
+        district = state.params.district
+        province = state.params.province
+        country = state.params.country
+
+        switch(request){
+            case 'from':{
+                fromLat = lat
+                fromLong = long 
+                addFrom = num + ', '+ street+', '+ ward + ', '+ district + ', '+ province + ', '+ country
+
+                break;
+            }
+            case 'to':{
+                toLat = lat
+                toLong = long 
+                addTo = num + ', '+ street+', '+ ward + ', '+ district + ', '+ province + ', '+ country
+                
+                break;
+            }
+        }
+        
+
+    }
+
+   
     static navigationOptions={
         drawerIcon:(
             <View style={{
@@ -101,19 +179,102 @@ export default class CTB10 extends React.Component{
             </View>
         )
     }
+    _handleChoose(choose){
+        
 
-      _goToCTB12(){
-        Alert.alert(
-            'Alert Title',
-            'My Alert Msg',
-            [
-              {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            { cancelable: false }
-          )
+        switch(choose){
+            case 'from':{
+                this.props.navigation.navigate('CTB11',{request:'from'})
+                break;
+            }
+            case 'to':{
+                this.props.navigation.navigate('CTB11',{request:'to'})
+                break;
+            }
+        }
+
+    }
+      _handleTouchLocation(){
+        setTimeout(()=>{
+            fetch("http://dev.vrada.vn/api/rest/v1/txn-tour-booking", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
+                },
+                body: JSON.stringify({
+                    srv_id:id,
+                    pck_addr:addFrom,
+                    pck_lat:fromLat,
+                    pck_lng:fromLong,                    
+                    drf_addr:addTo,
+                    drf_lat:toLat,
+                    drf_lng:toLong,
+                    location:province,
+                    route_no:1,
+                    start_date:this.state.fromDate+'T'+this.state.fromTime,
+                    end_date:this.state.backDate+'T'+this.state.backTime,
+                    booking_class:this.state.selectedTransport,
+                    ride_class:'Cash',
+                    vehicle_class:this.state.selectedType,
+                    promo_cd:this.state.gift,
+                    payment_method:'Cash',
+                    seat_cd:this.state.transportLabel,
+                    cust_notes:this.state.note
+                })
+            })
+            .then((response) => response.json())
+            .then((responseData) => {
+                ToastAndroid.show(
+                    "Response Body -> " + JSON.stringify(responseData), ToastAndroid.LONG
+                )
+            })
+            .done();
+        },1)
+        
       }
+      _handleRideClass(choose){
+        if(choose == 'Oneway'){
+            alert('ONE')
+            this.setState({backDayChoosed:'none'})
+            opacityBackDay=0.3
+            colorOneWay= mainColor
+            borderOneWay = 3
+            colorReturn = 'gray'
+            borderReturn = 1.5
+
+        }else if(choose == 'Return'){
+            alert('TOW')
+            this.setState({backDayChoosed:'auto'})
+            opacityBackDay=1
+            colorReturn = mainColor
+            borderReturn = 3
+
+            colorOneWay = 'gray'
+            borderOneWay = 1
+        }
+
+    }
+    _handleTransport(transportLabel){
+            this.setState({
+                selectedTransport: transportLabel,
+            });
+            switch(transportLabel){
+                case '4SEAT':{
+                    id = 1
+                    break;
+                }
+                case '7SEAT':{
+                    id = 2
+                    break;
+                }
+            }
+            alert('id: '+ id)
+    }
+    _handleType(type){
+        this.setState({selectedType:type})
+    }
     render(){
         return(
         <TouchableWithoutFeedback>
@@ -124,7 +285,7 @@ export default class CTB10 extends React.Component{
                 <Header style={styles.header} noShadow>
                     <Left>
                         <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate("CTB11")}
+                            onPress={() => {this._handleChoose('from')}}
                             transparent>
                             <Image
                                 style={{tintColor:'white'}} 
@@ -171,73 +332,74 @@ export default class CTB10 extends React.Component{
                                 style={styles.icPickRed}
                             />
 
-                            <View style={{
-                                alignSelf:'center',
-                            }}>
-                                <View style = {styles.myDot}/>
-                                <View style = {styles.myDot}/>
-                                <View style = {styles.myDot}/>
-                            </View>
-
-                            <Image
-                                source={this.state.icYellow}
-                                style={styles.icPickYellow}
-                            />
                         </View>
-
                         <View style={styles.viewRight}>
+                               
                             <View style={styles.ViewInputLocation}>
-                                <TouchableOpacity onPress={()=>{this.navigation.navigate('CTB11','')}}>
-                                <TextInput
-                                    style={styles.txtinputLine1}
-                                    placeholderTextColor={'gray'}
-                                    underlineColorAndroid='transparent'
-                                    placeholder={this.state.plFrom1}
-                                    onChangeText={(value)=>{this.setState({line1:value})}}
-                                />
+                                <TouchableOpacity onPress={()=>{this._handleChoose('from')}}>
+                                    <Text style={styles.txtinputLine1}>
+                                        {addFrom}
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                                 <View
                                     style={{
                                         width:'100%',
                                         height:1,
-                                        backgroundColor:'gray'
+                                        backgroundColor:'gray',
+                                        marginTop:5,
+                                        marginBottom:5
                                     }}
                                 />
                             <View style={styles.ViewInputLocation}>
-                                <TextInput
-                                style={styles.txtinputLine2}
-                                    underlineColorAndroid='transparent'
-                                    placeholderTextColor={'gray'}
-                                    placeholder={this.state.plFrom2}
-                                    onChangeText={this.props.PickFrom}
-                                    onChangeText={(value)=>{this.setState({line2:value})}}
-                                />
+                                <TouchableOpacity onPress={()=>{this._handleChoose('to')}}>
+                                    <Text style={styles.txtinputLine1}>
+                                        {addTo}
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
-                                <View
-                                    style={{
-                                        width:'100%',
-                                        height:1,
-                                        backgroundColor:'gray'
-                                    }}
-                                />
-                            <View style={styles.ViewInputLocation}>
-                                <TextInput
-                                    style={styles.txtinputLine3}
-                                    underlineColorAndroid='transparent'
-                                    placeholderTextColor={'gray'}
-                                    placeholder={this.state.plFrom3}
-                                    onChangeText={this.props.PickFrom}
-                                    onChangeText={(value)=>{this.setState({line3:value})}}
-                                    
-                                />
-                            </View>
+                                
+                         
                         </View>
                         </View>
 
 
                         {/* Insert Form 2 in here */}
+                        <View style={{
+                            // backgroundColor:'red',
+                            width:'100%',
+                            justifyContent:'center',
+                            alignItems:'center',
+                            marginTop:10,
+                            marginBottom:15
+                        }}>
+                            <FormPicker
+                                onSubmitTransport={(transportLabel)=>{this._handleTransport(transportLabel)}}
+                                onSubmitType={(type) => {this._handleType(type)}}
+                                placeholderPickerTrans={this.state.selectedTransport}
+                                placeholderPickerType={this.state.selectedType}
 
+                                styleOneRide = {line2_r1()}
+                                styleReturn = {line2_r2()}
+                                styleToView = {line3_r3()}
+                                onPressOneWay = {()=>{this._handleRideClass('Oneway')}}
+                                onPressReturn = {()=>{this._handleRideClass('Return')}}
+                                pointerEventsToView={this.state.backDayChoosed}
+                                dateFromDay={this.state.fromDate}
+                                placeholderFromDay={this.state.fromDate}
+                                onDataChangeFromDay={(date)=>{this.setState({fromDate:date})}}
+                                dateHourFromDay={this.state.fromTime}
+                                placeholderHourFromDay={this.state.fromTime}
+                                onDataChangeHourFromDay={(time)=>{this.setState({fromTime:time})}}
+                                
+                                dateBackDay={this.state.backDate}
+                                placeholderBackDay={this.state.backDate}
+                                onDataChangeBackDay={(date)=>{this.setState({backDate:date})}}
+                                dateHourBackDay={this.state.backTime}
+                                placeholderHourBackDay={this.state.backTime}
+                                onDataChangeHourBackDay={(time)=>{this.setState({backTime:time})}}
+                            />
+                        </View>                
                         <View style={styles.ContainerForm3}>
                             <View style={styles.col1Form3}>
                                 <RowForm3
@@ -254,10 +416,31 @@ export default class CTB10 extends React.Component{
                                 />
                             </View>
                             <View style={styles.col3Form3}>
-                                <RowForm3
-                                source={this.state.payIC}
-                                placeholder={this.state.plPay}
-                                onChangeText={(value)=>{this.setState({pay:value})}}
+                                <TouchableOpacity 
+                                style={{justifyContent:'center',alignItems:'center',flexDirection:'row'}}
+                                onPress={() => {
+                                    this.refs.picker.show();
+                                }}>
+                                <View  style = {{
+                                    width:'37%',
+                                    alignSelf:'center',
+                                    // backgroundColor:'pink',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }} >
+                                    <Image
+                                        source={this.state.detailIC}
+                                        style={{height:20,width:20,alignSelf:'center'}}
+                                    />
+                                </View>
+                                <Text 
+                                    style={{width:'63%', color:'gray'}}>{this.state.plDetail}</Text>
+                                </TouchableOpacity>
+
+                                <SimplePicker
+                                ref={'picker'}
+                                options={TypeLabel}
+                                onSubmit={(value)=>{this.setState({plDetail:value})}}
                                 />
                             </View>
                         </View>
@@ -273,6 +456,8 @@ export default class CTB10 extends React.Component{
                                 style={{
                                     marginTop: 10,
                                     alignSelf: 'center',
+                                    width:30,
+                                    height:30,
                                 }}
                                 />
                             </View>
@@ -284,6 +469,7 @@ export default class CTB10 extends React.Component{
                             }}>
                                 <TextInput
                                 placeholder='Ghi chú cho tài xế'
+                                onchangeText={(value)=>{this.setState({note:value})}}
                                 multiline={true}
                                 style={{
                                     marginTop: 10,
@@ -300,7 +486,7 @@ export default class CTB10 extends React.Component{
                         }}>
                         <Btn
                             onPress={()=>{
-                                this._goToCTB12()
+                                this._handleTouchLocation()
                             }}
                             text='ĐẶT XE'/> 
                         </View>
@@ -315,7 +501,34 @@ export default class CTB10 extends React.Component{
         );
     }
 }
-
+line2_r2 = function(options){
+    return{
+        width:'50%',
+        height:'100%',
+        justifyContent:'center',
+        alignItems: 'center',
+        borderBottomColor:colorReturn,
+        borderBottomWidth:borderReturn
+    }
+}
+line3_r3 = function(options){
+    return{
+        height:'100%',
+        width:'45%',
+        flexDirection: 'row',
+        opacity:opacityBackDay,
+    }
+}
+line2_r1 = function(options){
+    return{
+        width:'50%',
+        height:'100%',
+        justifyContent:'center',
+        alignItems: 'center',
+        borderBottomColor:colorOneWay,
+        borderBottomWidth:borderOneWay
+    }
+}
 class RowForm3 extends React.Component{
     render(){
         return(
@@ -332,6 +545,7 @@ class RowForm3 extends React.Component{
                     alignItems: 'center',
                 }} >
                 <Image
+                style={{height:20,width:20}}
                 source = {this.props.source}/>
                 </View>
                 <TextInput
@@ -339,6 +553,7 @@ class RowForm3 extends React.Component{
                     width:'63%',
                     // backgroundColor:'gray'
                 }}
+                placeholderTextColor={'gray'}
                 placeholder={this.props.placeholder}
                 onChangeText={this.onChangeText}
                 />
@@ -663,52 +878,28 @@ const styles=StyleSheet.create({
     },
     ContainerForm:{
         backgroundColor:'white',
-        width:defaultWidth,
-        height:180,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#ddd',
-        borderBottomWidth: 2,
-        shadowColor: '#000',
-        shadowOffset: { width: 1, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 3,
-        elevation: 1,
         flexDirection:'row',
-        alignSelf: 'center',
-        marginTop: 10,
-    },
-    ContainerForm2:{
-        backgroundColor:'white',
         width:defaultWidth,
-        height:200,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#ddd',
-        borderBottomWidth: 2,
+        height:120,
         shadowColor: '#000',
         shadowOffset: { width: 1, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: 3,
         elevation: 1,
-        flexDirection:'column',
         alignSelf: 'center',
-        marginTop: 10,
+        marginTop:10
     },
+   
     ContainerForm3:{
         backgroundColor:'white',
+        flexDirection:'row',
         width:defaultWidth,
         height:50,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#ddd',
-        borderBottomWidth: 2,
         shadowColor: '#000',
         shadowOffset: { width: 1, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: 3,
         elevation: 1,
-        flexDirection:'row',
         alignSelf: 'center',
         marginTop: 10,
         justifyContent: 'center',
@@ -759,7 +950,7 @@ const styles=StyleSheet.create({
         
     },
     viewRight:{ 
-        // backgroundColor:'pink',
+        backgroundColor:'white',
         flexDirection: 'column',
         width:defaultWidth-60,
         justifyContent: 'center',
@@ -769,20 +960,26 @@ const styles=StyleSheet.create({
     viewLeft:{
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor:'blue',
+        backgroundColor:'white',
         width:40
     }, 
     icPickGreen:{
         tintColor:'green',
         alignSelf: 'center',
+        width:30,
+        height:30,
     },
     icPickRed:{
         tintColor:'red',
         alignSelf: 'center',
+        width:30,
+        height:30,
     },
     icPickYellow:{
         tintColor:'yellow',
         alignSelf: 'center',
+        width:30,
+        height:30,
     },
     myDot:{
         margin:3,

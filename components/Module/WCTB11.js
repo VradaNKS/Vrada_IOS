@@ -5,9 +5,10 @@ import {
     Dimensions,
     Text,
     TouchableOpacity,
-    Image,StatusBar
+    Image
 }from 'react-native'
-export default class CTB14 extends React.Component{
+
+export default class WCTB11 extends React.Component{
     constructor(props){
         super(props)
         this.state={
@@ -15,35 +16,15 @@ export default class CTB14 extends React.Component{
             ic_wait:require('../../source/icons/ic_wifi.png')
         }
     }
-
+    componentWillMount(){
+        setTimeout(()=>{
+            this.props.navigation.navigate('CTB10',{answer:''})
+        },1)
+    }
     render(){
         return(
             <View style={styles.container}>
-             <StatusBar barStyle = "dark-content" hidden = {false}/>
-                <View style={styles.onTop}>
-                    <Image
-                        source={this.state.ic_wait}
-                    />
-
-                    <Text
-                        style={{
-                            color:mainColor,
-                            fontSize:20,
-                        }}
-                    >Chờ tài xế xác nhận</Text>
-                </View>
-
-                <View style={styles.underBottom}>
-                    <TouchableOpacity 
-                        style ={styles.viewBtn}
-                        onPress ={this.props.onPress}
-                    >
-                        <Text 
-                            style={styles.txtButton}>
-                            {this.state.cancel}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <Text>Waitting</Text>
             </View>
         );
     }

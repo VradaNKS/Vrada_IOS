@@ -83,19 +83,7 @@ export default class PickLocation extends React.Component{
                                 placeholder={this.state.plTo}
                                 onChangeText={this.props.PickTo}
                             />
-                            {/* <TouchableOpacity 
-                                onPress={this.props.onPress}>
-                                <View style={{
-                                    height:25,
-                                    width:25,
-                                    justifyContent:'center',
-                                    alignItems:'center'
-                                }}>
-                                    <Image 
-                                    source={this.state.ic_plus}
-                                    style={styles.ic_plus}/>
-                                </View>
-                            </TouchableOpacity> */}
+                      
                             
                         </View>
                     </View>
@@ -113,9 +101,16 @@ class myDot extends React.Component{
     }
 }
 
+const colortext = "gray"
+const colorDataTime = "#333333"
+const colorLine = "#686868"
+
 const {width,height} = Dimensions.get('window')
-const defaultWidth = width-20;
+const defaultWidth = width-30;
 const mainColor='#008D44'
+const colorTXT = 'white'
+const btmLineGo = 0;
+const btmLineBoth = 0;
 
 const styles = StyleSheet.create({
     stayElevated:{

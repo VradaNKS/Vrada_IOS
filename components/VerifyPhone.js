@@ -129,6 +129,7 @@ export default class VerifyPhone extends React.Component{
         const { state } = this.props.navigation;
         phone = state.params.phone;
         co_cd = state.params.co_cd;
+        
         return(
             <View style={styles.container}>
             <StatusBar

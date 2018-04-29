@@ -18,7 +18,6 @@ import Btn from './Module/Btn'
 // import Dra from './Drawer/SildeBar'
 
 import IOSPicker from 'react-native-ios-picker';
-import Maps from './V-Tour/Maps'
 
 import PickLocation from './Module/PickLocation'
 import {
