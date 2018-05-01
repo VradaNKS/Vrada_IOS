@@ -11,7 +11,8 @@ import {
 }from 'react-native'
 
 import Logo from './Module/Logo'
-var timesChangeScreen = 2000;
+import { Container, Header, Content, Left, Right, Body } from 'native-base';
+var timesChangeScreen = 3000;
 
 // Set Time to Change Stack
 export default class Intro extends React.Component{
@@ -31,21 +32,26 @@ export default class Intro extends React.Component{
 
     render(){
         return(
-            <View style = {styles.container}>
-                <StatusBar
-                    backgroundColor="#00803f"
-                    translucent
-                />
-                <TouchableOpacity onPress={this._changeStack}>
-                    <Logo/>
-                </TouchableOpacity>
-                <View style={styles.viewCity}>
-                    <Image
-                        source={this.state.city}
-                        style={styles.city}
-                    />
-                </View>
-            </View>
+            <Container>
+                <Header style={{backgroundColor:mainColor,height:0,padding:10}}>
+                    <Left/>
+                    <Body/>
+                    <Right/>
+                </Header>
+                <Content>
+                    <View style = {styles.container}>
+                        <TouchableOpacity onPress={this._changeStack}>
+                            <Logo/>
+                        </TouchableOpacity>
+                        <View style={styles.viewCity}>
+                            <Image
+                                source={this.state.city}
+                                style={styles.city}
+                            />
+                        </View>
+                    </View>
+                </Content>
+            </Container>
         )
     }
 }

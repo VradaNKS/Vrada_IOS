@@ -45,6 +45,31 @@ import FormPicker from './components/Module/FormPicker'
 import WCTB11 from './components/Module/WCTB11'
 
 const Stack = StackNavigator({
+    Login:{
+        screen:Login,
+        navigationOptions: { header: null}
+    },
+    Splash:{
+        screen:Splash,
+    },
+    Intro:{
+        screen:Intro,
+        navigationOptions:{header:null}
+    },
+    RegisterU:{
+        screen:RegisterU,
+        navigationOptions:{
+            title:'Đăng ký thông tin',
+            headerStyle:{
+                backgroundColor:'#00803f',
+            },
+        }
+    },
+    Login:{
+        screen:Login,
+        navigationOptions: { header: null}
+    }, 
+    
     CTB10:{screen:CTB10},
     
     CTB18:{screen:CTB18},
@@ -69,28 +94,15 @@ const Stack = StackNavigator({
      // FormPicker:{scr  een:FormPicker},
     
     Drawer:{screen:Drawer},
-    Login:{
-        screen:Login,
-        navigationOptions: { header: null}
-    },  
+     
 
-    Splash:{
-        screen:Splash,
-        navigationOptions:{header:null}
-        
-    },
+    
     MyMapView:{screen:MyMapView},
     
-    Login:{
-        screen:Login,
-        navigationOptions: { header: null}
-    },
+   
     Help:{screen:Help},
     
-    Intro:{
-        screen:Intro,
-        navigationOptions:{header:null}
-    },
+    
    
     HomeScreen:{
         screen:HomeScreen,
@@ -111,15 +123,7 @@ const Stack = StackNavigator({
 
     CardSile:{screen:CardSile}, 
 
-    RegisterU:{
-        screen:RegisterU,
-        navigationOptions:{
-            title:'Đăng ký thông tin',
-            headerStyle:{
-                backgroundColor:'#00803f',
-            },
-        }
-    },
+   
     VerifyPhone:{
         screen:VerifyPhone,
         header: ({ goBack }) => ({

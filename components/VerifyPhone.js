@@ -55,7 +55,6 @@ export default class VerifyPhone extends React.Component{
                 const parsed= JSON.parse(dataResponse);
                 dataSource= parsed;
                 this.setState({checkMess:dataSource.message})
-                ToastAndroid.show(""+this.state.checkMess, ToastAndroid.SHORT)  
                 switch(dataSource.message){
                     case "ERR-CST-103":{
                         Alert.alert(

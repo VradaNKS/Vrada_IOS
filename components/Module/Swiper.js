@@ -67,7 +67,6 @@ export default class Swipers extends Component {
                 const parsed= JSON.parse(dataResponse);
                 dataSource= parsed;
                 this.setState({dataSource:parsed})
-                ToastAndroid.show('Loaded', ToastAndroid.SHORT)
             })
             .then(()=>{
                 var length = 0;
@@ -105,9 +104,6 @@ export default class Swipers extends Component {
   render(){
     return (
         <View style={styles.container}>
-            <StatusBar 
-                backgroundColor="#008D44"
-                barStyle='light-content' />
             <Swiper 
             dot={<View 
                 style={{
@@ -117,7 +113,9 @@ export default class Swipers extends Component {
                     borderRadius: 7, 
                     marginLeft: 7, 
                     marginRight: 7,
-                    marginBottom:20
+                alignSelf:'center' ,
+                marginBottom:30,               
+                    
                 }} />}
             activeDot={<View style={{
                 backgroundColor: mainColor, 
@@ -126,8 +124,8 @@ export default class Swipers extends Component {
                 borderRadius: 7, 
                 marginLeft: 7, 
                 marginRight: 7,
-                marginBottom:20
-                
+                marginBottom:30,               
+                alignSelf:'center' ,               
             }} />}
             showsPagination={true}
             style={styles.wrapper} 
@@ -227,10 +225,11 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         // backgroundColor:'red',
-        height:400
+        height:200
     },
     viewSilde:{
-        height:height*(2/3)
+        height:height*(30/100),
+        // backgroundColor:'yellow'
     },
     viewtxtSilde:{
         width:width,

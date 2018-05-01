@@ -37,7 +37,7 @@ import {
 
 
 var dataSource=[];
-
+var registed = false;
 
 export default class Login extends React.Component{
 
@@ -45,7 +45,7 @@ export default class Login extends React.Component{
         super(props)
 
         this.state={
-            next:'Tiếp stheo',
+            next:'Tiếp theo',
             Zalo:require('../source/icons/ic_zalo.png'),
             Facebook:require('../source/icons/ic_fb.png'),
             Google:require('../source/icons/ic_gg.png'),
@@ -74,6 +74,8 @@ export default class Login extends React.Component{
             defaultCOCD:require('../source/images/flat.png'),
             co_cd_default:'',
             dataArray:[],
+            flagVietNam:require('../source/images/flat.png'),
+            flagChina:require('../source/images/chinaflag.png')
         }
     }
     handleChange(value: string) {
@@ -98,13 +100,18 @@ export default class Login extends React.Component{
         })
             .then((response) => response.json())
             .then((responseData) => {
-                ToastAndroid.show(
-                    "Response Body -> " + JSON.stringify(responseData), ToastAndroid.LONG
-                )
+                // alert(
+                //     "Response Body -> " + JSON.stringify(responseData)
+                // )
+                // const dataResponse = JSON.stringify(responseData)
+                // const parsed= JSON.parse(dataResponse);
+                // const check = parsed.code
+
+                // alert(check)
             })
             .done();
             Keyboard.dismiss()
-            ToastAndroid.show("Waiting...", ToastAndroid.SHORT)
+
             this.props.navigation.navigate("VerifyPhone",{phone:this.state.phone,co_cd:this.state.co_cd_default})
         }else{
             Alert.alert(
@@ -189,6 +196,7 @@ export default class Login extends React.Component{
                                 icon_url:dataSource.data[key].icon_url
                             }
                         }))
+                        
                         break;                    
                     }
                    }
@@ -196,118 +204,131 @@ export default class Login extends React.Component{
 
             })
             .done();
-            ToastAndroid.show("Loaded",ToastAndroid.SHORT)
+            // ToastAndroid.show("Loaded",ToastAndroid.SHORT)
             
     }
 
     _Country(){
-        ToastAndroid.show('URI: '+this.state.VN.icon_url, ToastAndroid.SHORT)
+        // ToastAndroid.show('URI: '+this.state.VN.icon_url, ToastAndroid.SHORT)
         this.setState({modalVisible:true})
     }
     _handleChooseCountry(country){
         this.setState({modalVisible:false})  
+        
         this.setState({co_cd_default:country})
-        ToastAndroid.show(''+country, ToastAndroid.SHORT)      
+        switch(country){
+            case "VN":{
+                this.setState({defaultCOCD : this.state.flagVietNam})
+                break;
+            }
+            case "CN":{
+                this.setState({defaultCOCD :this.state.flagChina})
+            }
+        }
+        // ToastAndroid.show(''+country, ToastAndroid.SHORT)      
     }
     render(){
         return(
-            <View style={styles.container}>
-                <StatusBar
-                    barStyle="light-content"/>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    onRequestClose={() => {
-                    alert('Modal has been closed.');
-                    }}
-                    visible={this.state.modalVisible}
-                    >
-                        <View style={{
-                            flex:1,
-                            backgroundColor:'black',
-                            opacity:0.2
-                            
-                        }}>
-                       <TouchableOpacity onPress={()=>{
+            <Container>
+                <Header  style={{backgroundColor:mainColor,height:0,padding:10}}>
+                    
+                </Header>
+                <View style={styles.container}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        onRequestClose={() => {
+                        alert('Modal has been closed.');
+                        }}
+                        visible={this.state.modalVisible}
+                        >
+                            <View style={{
+                                flex:1,
+                                backgroundColor:'black',
+                                opacity:0.2
+                                
+                            }}>
+                            <TouchableOpacity onPress={()=>{
                                 this.setState({modalVisible:false})
                             }}>
-                       <Image
-                            
-                            style={{
-                                tintColor:'white',
-                                height:30,
-                                width:30
-                            }}
-                            source={require('../source/icons/backbutton.png')}
-                        />
-                       </TouchableOpacity>
+                            <Image
+                                    
+                                    style={{
+                                        tintColor:'white',
+                                        height:30,
+                                        width:30
+                                    }}
+                                    source={require('../source/icons/backbutton.png')}
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <View style={containerModel}>
-                            <Text style={styles.titleChooseCountry}>{this.state.country}</Text>
-                           <ScrollView>
-                           <LineForm   
-                            source={this.state.defaultCOCD}
-                            country={this.state.VN.co_nm_en}
-                            co_cd={this.state.VN.tel_cd}
-                            onPress={()=>{this._handleChooseCountry("VN")}}
-                            />
-                            <LineForm   
-                            source={this.state.defaultCOCD}
-                            country={this.state.CN.co_nm_en}
-                            co_cd={this.state.CN.tel_cd}
-                            onPress={()=>{this._handleChooseCountry("CN")}}
-                            />
-                            </ScrollView>
-                        </View>
+                            <View style={containerModel}>
+                                <Text style={styles.titleChooseCountry}>{this.state.country}</Text>
+                                    <ScrollView>
+                                        <LineForm   
+                                            source={this.state.flagVietNam}
+                                            country={this.state.VN.co_nm_en}
+                                            co_cd={this.state.VN.tel_cd}
+                                            onPress={()=>{this._handleChooseCountry("VN")}}
+                                            />
+                                        <LineForm   
+                                        source={this.state.flagChina}
+                                        country={this.state.CN.co_nm_en}
+                                        co_cd={this.state.CN.tel_cd}
+                                        onPress={()=>{this._handleChooseCountry("CN")}}
+                                        />
+                                    </ScrollView>
+                                </View>
                     </Modal>
-                <Logo/>
-                <View style={{
-                }}>
-                        {/* View type phonenumber */}
-                    <View style={styles.viewPhoneNumber}>
-                        <TouchableOpacity 
-                            onPress={()=>{this._Country()}}
-                            style={styles.viewFlat}>
-                            <Image 
-                                source={this.state.VN.icon_url}
-                                style={styles.iconFLat}
+                    <Logo/>
+                    <View style={{
+                    }}>
+                            {/* View type phonenumber */}
+                        <View style={styles.viewPhoneNumber}>
+                            <TouchableOpacity 
+                                onPress={()=>{this._Country()}}
+                                style={styles.viewFlat}>
+                                <Image 
+                                    source={this.state.defaultCOCD}
+                                    style={styles.iconFLat}
+                                />
+                            </TouchableOpacity>    
+                                <Text style={styles.coFont}>{this.state.co_cd_default}</Text>
+                            <TextInput
+                                style={styles.textipt}
+                                keyboardType='numeric'
+                                autoCorrect={false}
+                                placeholder={this.state.plNumber}
+                                underlineColorAndroid='transparent'
+                                onChangeText={(value)=>{this.setState({phone:value})}}
                             />
-                        </TouchableOpacity>    
-                            <Text style={styles.coFont}>{this.state.co_cd_default}</Text>
-                        <TextInput
-                            style={styles.textipt}
-                            keyboardType='numeric'
-                            autoCorrect={false}
-                            placeholder={this.state.plNumber}
-                            underlineColorAndroid='transparent'
-                            onChangeText={(value)=>{this.setState({phone:value})}}
+                        </View>
+                        {/* Button Next */}
+                        <TouchableOpacity 
+                            onPress={()=>{this._Next()}}
+                            style={styles.BtnNext}>
+                            <Text style={styles.txtButton}>{this.state.next}</Text>
+                        </TouchableOpacity>
+                        {/* End */}
+                    </View>
+                    {/* View Social */}
+                    <View style={styles.viewSocial}>
+                        {/* <SocialIcon
+                            source={this.state.Zalo}
+                            onPress={()=>ToastAndroid.show('Clicked',ToastAndroid.SHORT)}
+                        /> */}
+                        <SocialIcon
+                            source={this.state.Facebook}
+                            onPress={()=>{this._FaceBookLogin()}}
+                        />
+                        <SocialIcon
+                            source={this.state.Google}
+                            onPress={this._loginGoogle.bind(this)}
                         />
                     </View>
-                    {/* Button Next */}
-                    <TouchableOpacity 
-                        onPress={()=>{this._Next()}}
-                        style={styles.BtnNext}>
-                        <Text style={styles.txtButton}>{this.state.next}</Text>
-                    </TouchableOpacity>
                     {/* End */}
-                </View>
-                {/* View Social */}
-                <View style={styles.viewSocial}>
-                    {/* <SocialIcon
-                        source={this.state.Zalo}
-                        onPress={()=>ToastAndroid.show('Clicked',ToastAndroid.SHORT)}
-                    /> */}
-                    <SocialIcon
-                        source={this.state.Facebook}
-                        onPress={()=>{this._FaceBookLogin()}}
-                    />
-                    <SocialIcon
-                        source={this.state.Google}
-                        onPress={this._loginGoogle.bind(this)}
-                    />
-                </View>
-                {/* End */}
-            </View>
+                    </View>
+                </Container>
         );
     }
 }
@@ -398,7 +419,7 @@ const styles = StyleSheet.create({
         marginLeft:10
     },
     flag:{
-        height:45,
+        height:40,
         width:50,
         // backgroundColor:'pink',
         alignSelf:'center'

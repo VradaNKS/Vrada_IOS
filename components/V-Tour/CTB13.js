@@ -20,7 +20,7 @@ import {
     Body,
     Title,
     Right
-}from'native-base'
+} from 'native-base'
 
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
