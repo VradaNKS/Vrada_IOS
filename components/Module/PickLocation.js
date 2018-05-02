@@ -184,10 +184,14 @@ const styles = StyleSheet.create({
     icPickGreen:{
         tintColor:'green',
         alignSelf: 'center',
+        height:30,
+        width:30
     },
     icPickRed:{
         tintColor:'red',
         alignSelf: 'center',
+        height:30,
+        width:30
     },
     myDot:{
         margin:3,

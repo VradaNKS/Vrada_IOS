@@ -18,8 +18,9 @@ import Btn from './Module/Btn'
 // import Dra from './Drawer/SildeBar'
 
 import IOSPicker from 'react-native-ios-picker';
-
-import PickLocation from './Module/PickLocation'
+import FormNote from './Module/FormNoteForDirver';
+import FormPayGift from './Module/FormPayGift';
+import PickLocation from './Module/PickLocation';
 import {
     Icon, 
     Title,
@@ -39,8 +40,9 @@ import {
     Thumbnail,
 }from'native-base'
 
+const TypeLabel = ['Personal', 'Business', 'Travel']
+
  class MainCSM10 extends React.Component{
-   
     constructor(props){
         super(props)
         this.state={
@@ -53,17 +55,16 @@ import {
             ic_menu: require('../source/icons/ic_menu.png'),
             icCash:require('../source/icons/ic_cash.png'),
             icGift:require('../source/icons/ic_gift.png'),
-
             payIC:require('../source/icons/ic_cash.png'),
             plPay:'Thanh toán',
             pay:'',
-
             giftIC:require('../source/icons/ic_gift.png'),
             plGift:'Mã giảm giá',
             gift:'',
             noteIC:require('../source/icons/ic_notepad.png'),
             plDetail:'Hình thức chuyến đi',
             detail:'',
+            noteDV:'',
 
         }
     }
@@ -142,7 +143,6 @@ import {
                     </View>
                 </Header>
                 <View style={styles.container}>
-                    <Maps/>
                     <View style={{position:'absolute', height:'100%'}}>
                         <View style={{
                                 height:height*(18/100),
@@ -157,61 +157,19 @@ import {
                                 PickTo={(value)=>{this.setState({to:value})}}
                             />
                         </View>
-                    {/* View Pay */}
-                        <View style={styles.ContainerForm3}>
-                            <View style={styles.col1Form3}>
-                                <RowForm3
-                                source={this.state.payIC}
-                                placeholder={this.state.plPay}
-                                onChangeText={(value)=>{this.setState({pay:value})}}
-                                />
-                            </View>
-                            <View style={styles.col2Form3}>
-                                <RowForm3
-                                source={this.state.giftIC}
-                                placeholder={this.state.plGift}
-                                onChangeText={(value)=>{this.setState({gift:value})}}
-                                />
-                            </View>
-                            <View style={styles.col3Form3}>
-                                <RowForm3
-                                source={this.state.payIC}
-                                placeholder={this.state.plPay}
-                                onChangeText={(value)=>{this.setState({pay:value})}}
-                                />
-                            </View>
+                        {/* View Pay */}
+                        <View style={styles.viewLine}>
+                            <FormPayGift
+                                options= {TypeLabel}/>
                         </View>
-                        <View style={styles.ContainerForm4}>
-                            <View style={{
-                                width:'10%',
-                                // backgroundColor:'blue',
-                                height:'100%'
-                            }}>
-                                <Image
-                                source={this.state.noteIC}
-                                style={{
-                                    marginTop: 10,
-                                    alignSelf: 'center',
-                                }}
-                                />
-                            </View>
-
-                            <View style={{
-                                width:'90%',
-                                // backgroundColor:'green',
-                                height:'100%'
-                            }}>
-                                <TextInput
-                                underlineColorAndroid='transparent'
-                                placeholder='Ghi chú cho tài xế'
-                                style={{
-                                    width:'100%',
-                                    // backgroundColor:'red',
-                                    justifyContent: 'flex-end',
-                                }}  
-                                />
-                            </View>
+                            
+                        {/* Note for dirver */}
+                        <View style={styles.viewLine}>
+                            <FormNote
+                                ic={this.state.noteIC}
+                                onChangeText={(value)=>{this.setState({noteDV:value})}}/>
                         </View>  
+
                         {/* End Pay */}
                         <View style={{
                             position:'absolute',
@@ -276,6 +234,7 @@ class RowForm3 extends React.Component{
                     alignItems: 'center',
                 }} >
                 <Image
+                style={{height:30,width:35}}
                 source = {this.props.source}/>
                 </View>
                 <TextInput
@@ -303,6 +262,7 @@ const borderLine = 0.5
 const HLine = 55
 
 const styles=StyleSheet.create({
+    viewLine:{width:'96%', alignSelf:'center'},
     ContainerForm4:{
         backgroundColor:'white',
         width:defaultWidth,

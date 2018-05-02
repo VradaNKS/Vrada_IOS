@@ -361,7 +361,7 @@ export default class CTB10 extends React.Component{
                                 
                          
                         </View>
-                        </View>
+                    </View>
 
 
                         {/* Insert Form 2 in here */}
@@ -485,9 +485,7 @@ export default class CTB10 extends React.Component{
                             marginTop:10,
                         }}>
                         <Btn
-                            onPress={()=>{
-                                this._handleTouchLocation()
-                            }}
+                            onPress={()=>{this._handleTouchLocation()}}
                             text='ĐẶT XE'/> 
                         </View>
                     </ScrollView>      

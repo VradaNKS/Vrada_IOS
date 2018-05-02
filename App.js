@@ -45,6 +45,8 @@ import FormPicker from './components/Module/FormPicker'
 import WCTB11 from './components/Module/WCTB11'
 
 const Stack = StackNavigator({
+      
+    Drawer:{screen:Drawer},
     Login:{
         screen:Login,
         navigationOptions: { header: null}
@@ -92,8 +94,7 @@ const Stack = StackNavigator({
     CTB11:{screen:CTB11},
     
      // FormPicker:{scr  een:FormPicker},
-    
-    Drawer:{screen:Drawer},
+  
      
 
     
