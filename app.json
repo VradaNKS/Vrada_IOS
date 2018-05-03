@@ -1,5 +1,19 @@
 {
   "expo": {
-    "sdkVersion": "26.0.0"
+    "sdkVersion": "26.0.0",
+    "name": "nKsV",
+    "slug": "nksv",
+    "version": "0.1.0",
+    "isDetached": true,
+    "detach": {
+      "scheme": "exp9be2d891d9254f7c926fe25400840d06",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.4.0-sdk26.0.0-e63d9209-070c-4118-b06b-c60e82da0b66.tar.gz"
+    },
+    "scheme": "exp9be2d891d9254f7c926fe25400840d06",
+    "android": {
+      "package": "vrada",
+      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
+      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
+    }
   }
 }
