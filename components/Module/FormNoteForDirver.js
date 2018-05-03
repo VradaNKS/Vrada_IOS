@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     viewTextinput:{
         width:'90%',
-        backgroundColor:'green',
+        backgroundColor:'white',
         height:'100%'
     },
     viewIc:{

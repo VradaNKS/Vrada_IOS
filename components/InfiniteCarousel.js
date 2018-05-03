@@ -11,7 +11,7 @@ import {
 const noop = () => {};
 const PAGE_RATIO = 1 / 2;
 const DRAG_SENSITIVITY = 2 / 4;
-const ANIMATION_DURATION = 100;
+const ANIMATION_DURATION = 50;
 
 
 class InfiniteCarousel extends Component {
@@ -128,7 +128,7 @@ class InfiniteCarousel extends Component {
   };
 
   _isSameMeasure = (measurement1, measurement2) =>
-    measurement1.width === measurement2.width &&
+    measurement1.width === measurement2.width/2 &&
     measurement1.height === measurement2.height;
 
   _manageLayout = key =>

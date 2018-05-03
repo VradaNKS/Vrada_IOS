@@ -33,6 +33,7 @@ export default class PickLocation extends React.Component{
             fromLocation:'Location'
         }
     }
+    
     render(){
         return(
             <View style={styles.container}>
@@ -59,33 +60,32 @@ export default class PickLocation extends React.Component{
                     </View>
 
                     {/* Right */}
-                    <View style = {styles.viewRight}>
-
-                        <View style={styles.fromLocation}>
-                            <TextInput
-                                style={styles.txtInputTo}
-                                underlineColorAndroid='transparent'
-                                placeholderTextColor={'black'}
-                                placeholder={this.state.plFrom}
-                                onChangeText={this.props.PickFrom}
-                            />
+                    <View style={styles.viewRight}>
+                               
+                        <View style={styles.ViewInputLocation}>
+                            <TouchableOpacity onPress={this.props.onPressPickFrom}>
+                                <Text style={styles.txtinputLine1}>
+                                    {this.props.txtFrom}
+                                </Text>
+                            </TouchableOpacity>
                         </View>
-                        
-                        <View
-                            style={{height:1,backgroundColor:'gray',width:'100%'}}
-                        />
-
-                        <View style={styles.toLocation}>
-                            <TextInput
-                                style={styles.txtInputFrom}
-                                underlineColorAndroid='transparent'
-                                placeholderTextColor={'black'}
-                                placeholder={this.state.plTo}
-                                onChangeText={this.props.PickTo}
+                            <View
+                                style={{
+                                    width:'100%',
+                                    height:1,
+                                    backgroundColor:'gray',
+                                    marginTop:5,
+                                    marginBottom:5
+                                }}
                             />
-                      
+                        <View style={styles.ViewInputLocation}>
+                            <TouchableOpacity onPress={this.props.onPressPickTo}>
+                                <Text style={styles.txtinputLine1}>
+                                    {this.props.txtTo}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                             
-                        </View>
                     </View>
                 </View>
                 
@@ -113,6 +113,21 @@ const btmLineGo = 0;
 const btmLineBoth = 0;
 
 const styles = StyleSheet.create({
+    txtinputLine1:{
+        width:defaultWidth-60,
+        fontSize:20,
+     
+        // backgroundColor:'red',
+        alignItems:'center',
+        
+    },
+    ViewInputLocation:{
+        height:'30%',
+        width:'100%',
+        // backgroundColor:'green',
+        justifyContent:'center',
+        alignItems:'center'
+    },
     stayElevated:{
         // backgroundColor:'pink',
         height:40,
@@ -172,10 +187,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     viewRight:{ 
-        width:defaultWidth-50,
+        backgroundColor:'white',
         flexDirection: 'column',
-        // backgroundColor:'red',
-        justifyContent:'space-between'
+        width:defaultWidth-60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height:'100%'
     },
     viewLeft:{
         justifyContent: 'center',

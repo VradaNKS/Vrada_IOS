@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     ScrollView,
     ToastAndroid,
-    StatusBar, Image,TouchableWithoutFeedback
+    StatusBar, Image,TouchableWithoutFeedback,Keyboard,Alert
 }from 'react-native'
 import {BoxShadow} from 'react-native-shadow'
 import { 
@@ -25,7 +25,10 @@ var google_id = ''
 var zalo_id = ''
 var dataSource = []
 var ref_cd = ''
-export default class RegisterU extends React.Component{
+
+import DatePicker from 'react-native-datepicker'
+
+export default class CUI13 extends React.Component{
     constructor(props){
         super(props)
         this.state={
@@ -36,14 +39,14 @@ export default class RegisterU extends React.Component{
             plAddress:'Địa chỉ',
             plCode:'Mã giới thiệu',
             txtButton:'CẬP NHẬT',
-            update:'CẬP NHẬT',
+            update:'ĐĂNG KÝ',
 
-            name:'Sunny Bui',
-            phone:'09055004489',
-            email:'buiminhnhut@gmail.com.vn',
-            birthday:'10/09/1984',
+            name:'MrRS',
+            phone:'0869209655',
+            email:'nks.tamndt@gmail.com.vn',
+            birthday:'29-05-1998',
             address:'222 Lê Văn Sĩ, P.14, Q3',
-            code:'VRADA 123456789',
+            code:'VRADA 797997',
 
             dname:'',
             dphone:'',
@@ -53,44 +56,71 @@ export default class RegisterU extends React.Component{
             dcode:'',
         }
     }
-    _UpdateInfo(){
+    _RegisterAccount(){
         // ToastAndroid.show('Pressed Button', ToastAndroid.SHORT)
         // this.props.navigation.navigate('MainCSM10','')
-
-        fetch("http://dev.vrada.vn/api/rest/v1/customer-register", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
-            },
-            body: JSON.stringify({
-                co_cd: co_cd,
-                phone: phone,
-                otp: otp,
-                name: this.state.dname,
-                email: this.state.demail,
-                gender: '',
-                dob: this.state.dbirthday,
-                ref_cd: ref_cd,
-                facebook_id: fb_id,
-                google_id: google_id,
-                zalo_id : zalo_id,
-                device_id : ''
-
-            })
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                const dataResponse = JSON.stringify(responseData)
-                const parsed= JSON.parse(dataResponse);
-                dataSource= parsed;
-                alert(dataSource.user)
-            })
-            .done();
+        if(this.state.dname == '' && this.state.dphone == '' && this.state.demail=='' && this.state.dbirthday=='' && this.state.daddress == ''){
+            Alert.alert(
+                'Thông báo',
+                'Vui lòng điền đầy đủ thông tin',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+              )
+        }else{
+            Alert.alert(
+                'Dữ liệu lấy được',
+                'Name: '+ this.state.dname + '\n' +
+                'Phone: '+ phone + '\n' +
+                'Co CD: ' + co_cd + '\n' +
+                'Date: '+ this.state.dbirthday + '\n' +
+                'Address: '+ this.state.daddress + '\n' +
+                'Email: '+ this.state.demail + '\n' +
+                'Code: '+ this.state.dcode + '\n',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+            )
+            this.props.navigation.navigate('CSM10',{})
+            // fetch("http://dev.vrada.vn/api/rest/v1/customer-register", {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json',
+            //         'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
+            //     },
+            //     body: JSON.stringify({
+            //         co_cd: co_cd,
+            //         phone: phone,
+            //         otp: otp,
+            //         name: this.state.dname,
+            //         email: this.state.demail,
+            //         gender: '',
+            //         dob: this.state.dbirthday,
+            //         ref_cd: ref_cd,
+            //         facebook_id: fb_id,
+            //         google_id: google_id,
+            //         zalo_id : zalo_id,
+            //         device_id : ''
+    
+            //     })
+            // })
+            //     .then((response) => response.json())
+            //     .then((responseData) => {
+            //         const dataResponse = JSON.stringify(responseData)
+            //         const parsed= JSON.parse(dataResponse);
+            //         dataSource= parsed;
+            //         alert(dataSource.user)
+            //     })
+            //     .done();
+        }
+        
 
     }
     render(){
+        const {state} = this.props.navigation
         return(
     <TouchableWithoutFeedback>
     <Container>
@@ -106,27 +136,35 @@ export default class RegisterU extends React.Component{
                 <Right />
             </Header>
 
-            <Content>
             <View style={styles.container}>
                 <ScrollView>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.form}>
                         <EditText
                         label={this.state.plName}
                         placeholder={this.state.name}
                         onChangeText={(value)=>{this.setState({dname:value})}}/>
                         <EditText
+                        keyboardType='phone-pad'
                         label={this.state.plPhone}
                         placeholder={this.state.phone}
                         onChangeText={(value)=>{this.setState({dphone:value})}}/>
-                        <EditText
+
+                        <PickerDate
+                        date={this.state.birthday}
                         label={this.state.plBirthday}
-                        placeholder={this.state.birthday}
-                        onChangeText={(value)=>{this.setState({dbirthday:value})}}/>
+                        onDateChange={(date) => {
+                            this.setState({birthday: date})
+                            this.setState({dbirthday: date})
+                        }}
+                        />
+                        
                         <EditText
                         label={this.state.plAddress}
                         placeholder={this.state.address}
                         onChangeText={(value)=>{this.setState({daddress:value})}}/>
                         <EditText
+                        keyboardType='email-address'
                         label={this.state.plEmail}
                         placeholder={this.state.email}
                         onChangeText={(value)=>{this.setState({demail:value})}}/>
@@ -136,19 +174,63 @@ export default class RegisterU extends React.Component{
                         onChangeText={(value)=>{this.setState({dcode:value})}}/>    
 
                     </View>
+                    </TouchableWithoutFeedback>
                 </ScrollView>
                     <ButtonUpdate
                         text={this.state.update}
-                        onPress={()=>{this._UpdateInfo()}}
+                        onPress={()=>{this._RegisterAccount()}}
                     />
                 </View> 
-            </Content>
         </Container>
     </TouchableWithoutFeedback>
         )
     }
 }
-
+class PickerDate extends React.Component{
+    render(){
+        return(
+            <View style={styles.viewEditText}>
+            <Text style={{color:'gray',}}
+                >{this.props.label}</Text>
+            <View style={{
+               borderBottomColor: colorBorder,
+                borderBottomWidth: 1.5,
+                marginBottom:5
+            }}>
+            <DatePicker
+                style={{
+                
+                }}
+                date={this.props.date}
+                mode="date"
+                placeholder={this.props.placeholder}
+                format="DD-MM-YYYY"
+                minDate="2016-05-01"
+                maxDate="2029-06-01"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                showIcon={false}
+                customStyles={{
+                dateInput: {
+                   borderWidth:0,
+                   alignItems:'flex-start'
+                },
+                placeholderText:{},
+                dateTouchBody:{
+                    width:width-20
+                },
+                dateText:{
+                    fontSize:20,
+                }
+                // ... You can check the source to find the other keys.
+                }}
+                onDateChange={this.props.onDateChange}
+            />
+            </View>
+            </View>
+        )
+    }
+}
 class EditText extends React.Component{
     render(){
        
@@ -160,6 +242,7 @@ class EditText extends React.Component{
                     }}
                 >{this.props.label}</Text>
                 <TextInput
+                    keyboardType={this.props.keyboardType}
                     style={styles.textinput}
                     placeholderTextColor="#2E2E2E"
                     placeholder={this.props.placeholder}

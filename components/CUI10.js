@@ -30,16 +30,18 @@ import {
     ListItem,
     Thumbnail,
     Right,
-    Toast
-}from'native-base'
+}from 'native-base'
+
+import Toast, {DURATION} from 'react-native-easy-toast'
+
 
 // import SmartPicker from 'react-native-smart-picker'
 
 
 var dataSource=[];
 var registed = false;
-
-export default class Login extends React.Component{
+var send = false; 
+export default class CUI10 extends React.Component{
 
     constructor(props){
         super(props)
@@ -86,33 +88,37 @@ export default class Login extends React.Component{
     _Next(){
 
         if(this.state.phone != ''){
-            fetch("http://dev.vrada.vn/api/rest/v1/customer-validate-phone", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
-            },
-            body: JSON.stringify({
-                co_cd: this.state.co_cd_default,
-                phone: this.state.phone,
-            })
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                // alert(
-                //     "Response Body -> " + JSON.stringify(responseData)
-                // )
-                // const dataResponse = JSON.stringify(responseData)
-                // const parsed= JSON.parse(dataResponse);
-                // const check = parsed.code
+       
+            
+            if(!send){
+                send = true
 
-                // alert(check)
-            })
-            .done();
-            Keyboard.dismiss()
-
-            this.props.navigation.navigate("VerifyPhone",{phone:this.state.phone,co_cd:this.state.co_cd_default})
+                 //     fetch("http://dev.vrada.vn/api/rest/v1/customer-validate-phone", {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //         'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
+        //     },
+        //     body: JSON.stringify({
+        //         co_cd: this.state.co_cd_default,
+        //         phone: this.state.phone,
+        //     })
+        // })
+        //     .then((response) => response.json())
+        //     .then((responseData) => {
+        //     })
+        //     .done();
+        //     Keyboard.dismiss()
+        
+                this.props.navigation.navigate("CUI12",{phone:this.state.phone,co_cd:this.state.co_cd_default})
+                console.log("IF: "+send)    
+            }else{
+                console.log("ELSE: "+send)
+                this.props.navigation.navigate("CUI12",{phone:this.state.phone,co_cd:this.state.co_cd_default})
+              
+            }
+            
         }else{
             Alert.alert(
                 'Thông báo ',
@@ -146,7 +152,8 @@ export default class Login extends React.Component{
         
         let array = Object.assign({},this.state.dataArray);
 
-    fetch("http://dev.vrada.vn/api/rest/v1/masterdata-country", {
+        setTimeout(()=>{
+            fetch("http://dev.vrada.vn/api/rest/v1/masterdata-country", {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -204,6 +211,7 @@ export default class Login extends React.Component{
 
             })
             .done();
+        },1000)
             // ToastAndroid.show("Loaded",ToastAndroid.SHORT)
             
     }
@@ -281,9 +289,7 @@ export default class Login extends React.Component{
                                 </View>
                     </Modal>
                     <Logo/>
-                    <View style={{
-                    }}>
-                            {/* View type phonenumber */}
+                    <View>
                         <View style={styles.viewPhoneNumber}>
                             <TouchableOpacity 
                                 onPress={()=>{this._Country()}}
@@ -495,7 +501,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         // backgroundColor:'blue',
         width:defaultWidth,
-        marginTop: 20,
         borderBottomColor:'#CCCCCC',
         borderBottomWidth:1 ,
     },

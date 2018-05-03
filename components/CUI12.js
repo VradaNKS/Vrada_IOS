@@ -14,13 +14,17 @@ import {
     Alert
 }from 'react-native'
 
-import ButtonUpdate from './User/RegisterU'
 import SmallLogo from './Module/SmallLogo'
-
+import {
+    Container,
+    Content,
+    Body,
+    Header,Left,Right
+} from 'native-base'
 var dataSource=[];
 const phone = '';
 const co_cd = '';
-export default class VerifyPhone extends React.Component{
+export default class CUI12 extends React.Component{
     constructor(props){
         super(props)
         this.state={
@@ -37,63 +41,84 @@ export default class VerifyPhone extends React.Component{
         }
     }
     _next(){
-        if(this.state.otp != ''){
-            fetch("http://dev.vrada.vn/api/rest/v1/customer-verify-otp ", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
-            },
-            body: JSON.stringify({
-                otp: this.state.otp,
-            })
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                const dataResponse = JSON.stringify(responseData)
-                const parsed= JSON.parse(dataResponse);
-                dataSource= parsed;
-                this.setState({checkMess:dataSource.message})
-                switch(dataSource.message){
-                    case "ERR-CST-103":{
-                        Alert.alert(
-                            'Lỗi phát sinh ',
-                            'Xin vui lòng kiểm tra lại số điện thoại và mã OTP',
-                            [
-                              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                              {text: 'OK', onPress: () => console.log('OK Pressed')},
-                            ],
-                            { cancelable: false }
-                          )
-
-                          break;
-                    }
-                    case "ERR-CST-111":{
-                        Alert.alert(
-                            'Lỗi phát sinh ',
-                            'Xin vui lòng kiểm tra lại số điện thoại và mã OTP',
-                            [
-                              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                              {text: 'OK', onPress: () => console.log('OK Pressed')},
-                            ],
-                            { cancelable: false }
-                          )
-
-                          break;
-                    }
-                    case "INFO-CST-101":{
-                        this.props.navigation.navigate('RegisterU',{phone:phone,co_cd:co_cd,otp:this.state.otp});
-                    }
-                    case "INFO-CST-106":{
-                        this.props.navigation.navigate('MainCSM10',{phone:phone,co_cd:co_cd,otp:this.state.otp});
-                    }
-                } 
-
-            })
-            .done();
-
-            
+        if(this.state.otp == ''){
+            alert('Vui lòng nhập mã OTP'+'\n'+'Nếu bạn chưa nhập được mã OTP'+'\n'+'vui lòng nhấn resend')
+        }else{
+            switch(this.state.otp){
+                case '104':{
+                    alert('LỖI PHÁT SINH 104')
+                    break
+                }
+                case '103':{
+                    alert('XÁC THỰC THÀNH CÔNG & CHƯA ĐĂNG KÝ')
+                    this.props.navigation.navigate('CUI13',{
+                        co_cd:co_cd,
+                        phone:phone,
+                        otp:this.state.otp
+                    })
+                    break
+                }
+                case '105':{
+                    alert('XÁC THỰC THÀNH CÔNG & ĐÃ ĐĂNG KÝ')
+                    this.props.navigation.navigate('')
+                }
+                default:{}
+            }
+            // fetch("http://dev.vrada.vn/api/rest/v1/customer-verify-otp ", {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json',
+            //         'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
+            //     },
+            //     body: JSON.stringify({
+            //         phone:'0869209655',
+            //         otp: this.state.otp,
+            //     })
+            // })
+            // .then((response) => response.json())
+            // .then((responseData) => {
+            //     const dataResponse = JSON.stringify(responseData)
+            //     const parsed= JSON.parse(dataResponse);
+            //     dataSource= parsed;
+            //     this.setState({checkMess:dataSource.message})
+            //     switch(dataSource.message){
+            //         case "ERR-CST-103":{
+            //             Alert.alert(
+            //                 'Lỗi phát sinh ',
+            //                 'Xin vui lòng kiểm tra lại số điện thoại và mã OTP',
+            //                 [
+            //                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            //                     {text: 'OK', onPress: () => console.log('OK Pressed')},
+            //                 ],
+            //                 { cancelable: false }
+            //                 )
+    
+            //                 break;
+            //         }
+            //         case "ERR-CST-111":{
+            //             Alert.alert(
+            //                 'Lỗi phát sinh ',
+            //                 'Xin vui lòng kiểm tra lại số điện thoại và mã OTP',
+            //                 [
+            //                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            //                     {text: 'OK', onPress: () => console.log('OK Pressed')},
+            //                 ],
+            //                 { cancelable: false }
+            //                 )
+    
+            //                 break;
+            //         }
+            //         case "INFO-CST-101":{
+            //             this.props.navigation.navigate('RegisterU',{phone:phone,co_cd:co_cd,otp:this.state.otp});
+            //         }
+            //         case "INFO-CST-106":{
+            //             this.props.navigation.navigate('MainCSM10',{answer:'',phone:phone,co_cd:co_cd,otp:this.state.otp});
+            //         }
+            //     } 
+    
+            // })
+            // .done();
         }
         Keyboard.dismiss()
         
@@ -125,12 +150,29 @@ export default class VerifyPhone extends React.Component{
         
     }
     render(){
-        const { state } = this.props.navigation;
-        phone = state.params.phone;
-        co_cd = state.params.co_cd;
+        // const { state } = this.props.navigation;
+        // phone = state.params.phone;
+        // co_cd = state.params.co_cd;
         
         return(
-            <View style={styles.container}>
+
+            <Container>
+                <Header style={{borderBottomWidth:0,padding:10}}>
+                    <Left>
+                        <TouchableOpacity onPress={()=>{
+                            this.props.navigation.goBack();
+                        }}>
+                        <Image
+                            style={{tintColor:mainColor, height:30,width:30,
+                            alignSelf:'center'}}
+                            source={require('../source/icons/backbutton.png')}
+                        />
+                        </TouchableOpacity>
+                    </Left>
+                    <Body/>
+                    <Right/>
+                </Header>
+                <View style={styles.container}>
             <StatusBar
                 backgroundColor="#008D44"
                 barStyle="light-content"
@@ -165,6 +207,8 @@ export default class VerifyPhone extends React.Component{
                     onPress={this._resend.bind(this)}
                     text={this.state.resend}/>
             </View>
+            </Container>
+            
         );
     }
 }

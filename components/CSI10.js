@@ -12,10 +12,10 @@ import {
 
 import Logo from './Module/Logo'
 import { Container, Header, Content, Left, Right, Body } from 'native-base';
-var timesChangeScreen = 3000;
+var timesChangeScreen = 5000;
 
 // Set Time to Change Stack
-export default class Intro extends React.Component{
+export default class CSI10 extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -25,9 +25,8 @@ export default class Intro extends React.Component{
     }
     componentWillMount() {
         setTimeout( () => {
-          this.props.navigation.navigate('Splash','')
+          this.props.navigation.navigate('CSI11','')
         },timesChangeScreen)
-        // ToastAndroid.show('ALo',ToastAndroid.SHORT)
       }
 
     render(){
@@ -38,19 +37,17 @@ export default class Intro extends React.Component{
                     <Body/>
                     <Right/>
                 </Header>
-                <Content>
-                    <View style = {styles.container}>
-                        <TouchableOpacity onPress={this._changeStack}>
-                            <Logo/>
-                        </TouchableOpacity>
-                        <View style={styles.viewCity}>
-                            <Image
-                                source={this.state.city}
-                                style={styles.city}
-                            />
-                        </View>
+                <View style = {styles.container}>
+                    <TouchableOpacity onPress={this._changeStack}>
+                        <Logo/>
+                    </TouchableOpacity>
+                    <View style={styles.viewCity}>
+                        <Image
+                            source={this.state.city}
+                            style={styles.city}
+                        />
                     </View>
-                </Content>
+                </View>
             </Container>
         )
     }

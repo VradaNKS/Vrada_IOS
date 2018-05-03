@@ -13,8 +13,8 @@ import {DrawerNavigator,DrawerItems} from 'react-navigation'
 
 
 import Help from './Help'
-import MainCSM10 from './MainCSM10'
-import CTB1 from './V-Tour/CTB10';
+import CSM10 from './CSM10'
+import Drawer from 'react-native-drawer'
 
 
 const br = require('../source/images/city.png')
@@ -24,79 +24,35 @@ const user = {
     point:'1000 điểm',
     event:'Chương trình ưu đãi'
 }
-const CustomDrawerContentComponent = (props) => (
-    <Container>
-            <View 
-            style={{
-                width:'100%',
-                height:'30%',
-                // backgroundColor:'red'
-            }}>
-                <Image
-                source={br}
-                style={{
-                    height:'100%',
-                    width:'100%'
-                }}/>
-
-                <View style={{
-                    height:'100%',
-                    width:'100%',
-                    position:'absolute',
-                    top:0,
-                    // backgroundColor:'blue',
-                    justifyContent:'center',
-                    alignItems:'center',
-                }}>
-                    <Image
-                        source={avt}
-                        style={{
-                        height:70,
-                        width:70,
-                        // backgroundColor:'blue',
-                        alignSelf:'center'
-                    }}
-                    />
-
-                    <Text style={{fontSize:20,fontWeight:'bold'}}>{user.name}</Text>
-                    <View style={{
-                        width:'80%',
-                        height:40,
-                        // backgroundColor:'red',
-                        alignSelf:'center',
-                        flexDirection:'row',
-                        justifyContent:'space-between',
-                        alignItems:'center'
-                    }}>
-                        <Text style={{color:mainColor}}>{user.point}</Text>
-                        <View style={{backgroundColor:'gray',height:'60%',width:2}}/>
-                        <Text style={{color:mainColor}}>{user.event}</Text>
-                    </View>
-                </View>
-
+class ControlPanel extends React.Component{
+    render(){
+        return(
+            <View>
+                <Text>Drawer</Text>
             </View>
+        )
+    }
+}
+ export default class MyDrawer extends React.Component{
+    closeControlPanel = () => {
+        this._drawer.close()
+      };
+    openControlPanel = () => {
+        this._drawer.open()
+    };
 
-            <Container>
-                    <DrawerItems {...props}/>
-            </Container>
-    </Container>
+     render(){
+         return(
+             <Drawer
+                ref={(ref) => this._drawer = ref}
+                content={<ControlPanel />}
 
-)
-    
-const Drawer = DrawerNavigator({
-    MainCSM10:{screen:MainCSM10},
-    Help:{screen:Help},
-    CTB1:{screen:CTB1}
-},{
-    initialRouteName:'MainCSM10',
-    contentComponent:CustomDrawerContentComponent,
-    drawerOpenRoute:'DrawerOpen',
-    drawerCloseRoute:'DrawerClose',
-    drawerToggleRoute:'DrawerToggle'
-})
-
-
- export default Drawer
+             >
+             </Drawer>
+         )
+     }
+ }
+ 
  const {width,height} = Dimensions.get('window')
  const defaultWidth = width-20;
  const mainColor='#008D44'

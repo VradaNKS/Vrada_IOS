@@ -176,6 +176,7 @@ class ViewSilde extends React.Component{
                         source={this.state.br}
                         style={styles.slide1}>
                         <Image
+                            resizeMode='contain'
                             style={styles.imageInsideSilde}
                             source={this.props.imageInside}
                         />
@@ -219,6 +220,10 @@ const defaultWidth = width-48;
 const mainColor='#008D44'
 const activeDot = '#DADADA'
 const styles = StyleSheet.create({
+    imageInsideSilde:{
+        height:50,
+        width:100
+    },
     container:{
         height:height*(2/3),
         justifyContent: 'center',

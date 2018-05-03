@@ -87,7 +87,7 @@ import {
                     alignItems: 'center',
                 }} >
                 <Image
-                    style={{height:20,width:20, backgroundColor:'red'}}
+                    style={{height:25,width:30}}
                     source = {this.props.source}/>
                 </View>
                 <TextInput

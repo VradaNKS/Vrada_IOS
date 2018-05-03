@@ -21,7 +21,6 @@ import {
     Title,
     Right
 } from 'native-base'
-
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import Btn from '../../components/Module/Btn';
@@ -103,45 +102,88 @@ export default class CTB13 extends React.Component{
         </View>
     );
     }
+    componentWillMount(){
+        // setTimeout( () => {
+        // fetch("http://dev.vrada.vn/api/rest/v1/txn-tour-vehicle-detail", {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //         'api-key':'a21f355a5a8ebf9927ac247836dcfd9477ddff037b62d1558fe06d735eb04f5eee37ff3f04f2c05f02edba1f3728d7426dde567764b62972efd5e673f7cf8a26',
+        //     },
+        //     body:{
 
+        //     },
+        // })
+        //     .then((response) => response.json())
+        //     .then((responseData) => {
+        //         const dataResponse = JSON.stringify(responseData)
+        //         const parsed= JSON.parse(dataResponse);
+        //         dataSource= parsed;
+        //         this.setState({dataSource:parsed})
+        //     })
+        //     .then(()=>{
+        //         var length = 0;
+        //         for( var key in dataSource.data ) {
+        //            switch(dataSource.data[key].id){
+        //             case 1 :{
+        //                 this.setState({vRadar:dataSource.data[2].srv_div})
+        //                 this.setState({descV:dataSource.data[2].srv_div})
+        //                 break;
+        //             }
+        //             case 2 :{
+        //                 this.setState({vBike:dataSource.data[0].srv_div})
+        //                 this.setState({descBike:dataSource.data[0].srv_div})
+        //                 break;
+        //             }
+        //             case 3 :{
+        //                 this.setState({vCar:dataSource.data[1].srv_div})
+        //                 this.setState({descCar:dataSource.data[1].srv_div})
+        //                 break;
+        //             }
+        //             case 4 :{
+        //                 this.setState({vTour:dataSource.data[3].srv_div})
+        //                 this.setState({descTour:dataSource.data[3].srv_div})
+        //                 break;
+        //             }
+        //            }
+        //         }
+        //     })
+        //     .done();
+        //   },1)
+         
+          
+    }
 
     render(){
         return(
             <Container >
             <ScrollView>
-                <StatusBar 
-                backgroundColor="#008D44"
-                barStyle='light-content' />
-               <View style={styles.header}>
-                    <View style={{
-                        height:'70%',
-                        justifyContent:'center',
-                        alignItems:'center',
-                        position:'absolute',
-                        left:10,
-                        bottom:0
-                    }}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Home")}>
-                            <Image
-                                style={{tintColor:'white'}} 
-                                source={require('../../source/icons/backbutton.png')} />
+                <Header style={{borderBottomWidth:0,padding:10,backgroundColor:mainColor}}>
+                    <Left>
+                        <TouchableOpacity onPress={()=>{
+                            this.props.navigation.goBack();
+                        }}>
+                        <Image
+                            style={{tintColor:'white', height:30,width:30,
+                            alignSelf:'center'}}
+                            source={require('../../source/icons/backbutton.png')}
+                        />
                         </TouchableOpacity>
-                    </View>
-                    <View style={{
-                        width:300,
-                        position:'absolute',
-                        left:50,
-                        height:'70%',
-                        bottom:0,
-                        justifyContent:'center'                        
-                    }}>
-                        <Text style={{
-                            fontWeight:'bold',
-                            fontSize:24,
+                    </Left>
+                    <Body>
+                        <View style={{height:'100%', width:200, justifyContent:'center',alignItems:'center'}}>
+                        <Text style = {{
                             color:'white',
+                            fontSize:24,
+                            fontWeight:'bold',
+                            alignSelf:'center'
                         }}>Thông tin tài xế</Text>
-                    </View>
-                </View>
+                        </View>
+                    </Body>
+                    <Right/>
+                </Header>
+              
 
                 <View style={{
                         flex:1,
@@ -365,7 +407,7 @@ const detailService ={
 }
 const infoDiver = StyleSheet.create({
     viewBR:{
-        height:'35%',
+        height:'25%',
         width:width,
         // backgroundColor:'red',
         position:'absolute',
@@ -381,9 +423,9 @@ const infoDiver = StyleSheet.create({
         width:90,
         zIndex:9999,
         alignSelf:'center',
-        position:'relative',
-        marginTop:height*(27/100),
-        // backgroundColor:'red'
+        backgroundColor:'white',
+        marginTop:'26%',
+        borderRadius:90/2
         },
     info:{
         width:defaultWidth,

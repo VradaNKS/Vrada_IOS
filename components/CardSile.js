@@ -8,7 +8,8 @@ import {
   Image,
   ToastAndroid,
   Dimensions,
-  Platform
+  Platform,
+  ImageBackground
 } from 'react-native';
 
 import InfiniteCarousel from './InfiniteCarousel';
@@ -27,14 +28,14 @@ const animals = [
   {
     name: 'Taxi',
     color: '#FBA026',
-    src:require('../source/icons/vcar.png'),
+    src:require('../source/icons/img2.png'),
     
     
   },
   {
     name: 'Plane',
     color: '#E14938',
-    src:require('../source/icons/vtour.png'),
+    src:require('../source/icons/img3.png'),
         
   },
   {
@@ -46,11 +47,11 @@ const animals = [
  
 ];
 
-const HEIGHT = 100;
+const HEIGHT = 70;
 
 const Animal = ({ name, color,src, animatedScale, index, style }) => (
   <View style={[{  }, styles.animal]}>
-    <TouchableOpacity onPress={() => ToastAndroid.show(`Item:  ${index+1}`, ToastAndroid.SHORT)}>
+    <TouchableOpacity onPress={() =>alert(`Item:  ${index+1}`)}>
       <Animated.View
         style={[
           {
@@ -60,14 +61,11 @@ const Animal = ({ name, color,src, animatedScale, index, style }) => (
           styles.animalAnimatedBox,
         ]}>
 
-        <Image
+        <ImageBackground
+          resizeMode='contain'
             source={src}
             style={styles.image}
-            parallaxFactor={1}
-            resizeMode={'cover'}
         />
-        <Text style={{  fontWeight: 'bold' }}>{name}</Text>
-        
       </Animated.View>
     </TouchableOpacity>
   </View>
@@ -132,7 +130,7 @@ class CardSile extends Component {
     // we will pass an array of functions as children
     const pages = animals.map((animal, index) =>
       (animatedPosition, pageWidth, pageOffset) => {
-        const height = pageWidth * 2;
+        const height = pageWidth;
         const width = height * RECTANGLE_RATIO;
         return (
               <Animal
@@ -167,15 +165,11 @@ class CardSile extends Component {
                 style={styles.panelInsde}
               >
               </View>
-           
-                    <View
-                    style={styles.cricleS}
-                  >
-              
+                  <View style={styles.cricleS}>
                   <View
                         style={{
-                        height:60,
-                        width:60,
+                        height:50,
+                        width:50,
                         backgroundColor:'#00803f',
                         position:'absolute',
                         alignSelf:'center',
@@ -206,7 +200,7 @@ const {width, height} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   panelInsde:{
-    height:height*(17/100),
+    height:height*(10/100),
     width:width,
     backgroundColor:'white',
     position:'absolute',
@@ -214,8 +208,8 @@ const styles = StyleSheet.create({
     zIndex:0,
   },
   cricleS:{
-    height:140,
-    width:140,
+    height:100,
+    width:100,
     backgroundColor:'white',
     position:'absolute',
     alignSelf:'center',
@@ -242,14 +236,14 @@ const styles = StyleSheet.create({
   animalAnimatedBox: {
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
-    
+    height:60,
+    width:100,
   },
   image:{
-    height:70,
-    width:120,
+    height:'100%',
+    width:'100%',
     justifyContent: 'center',
-    
+    flexWrap: 'wrap'
   },
 });
 

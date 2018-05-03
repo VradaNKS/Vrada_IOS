@@ -126,7 +126,6 @@ export default class CTB10 extends React.Component{
     }
     
     componentWillMount(){
-
         var {state}=this.props.navigation
         request = state.params.answer
         lat = state.params.lat

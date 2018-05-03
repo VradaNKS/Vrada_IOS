@@ -63,9 +63,8 @@ export default class Maps extends React.Component{
        
     }
     watchID: ?number = null
-
+    
     componentWillMount(){
-        
         navigator.geolocation.getCurrentPosition((position)=>{
             var lat = parseFloat(position.coords.latitude)
             var long = parseFloat(position.coords.longitude)
@@ -164,6 +163,35 @@ export default class Maps extends React.Component{
             }
             case 'to' : {
                 this.props.navigation.navigate('CTB10',{
+                    answer:'to',
+                    lat:getLat, 
+                    long:getLong,
+                    num:num,
+                    street:street,
+                    ward:ward,
+                    district:district,
+                    province:province,
+                    country:country,
+                });
+                break;
+            }
+            case 'CSM10from' : {
+                this.props.navigation.navigate('MainCSM10',
+                {
+                    answer:'from',
+                    lat:getLat, 
+                    long:getLong,
+                    num:num,
+                    street:street,
+                    ward:ward,
+                    district:district,
+                    province:province,
+                    country:country,
+                });
+                break;
+            }
+            case 'CSM10to' : {
+                this.props.navigation.navigate('MainCSM10',{
                     answer:'to',
                     lat:getLat, 
                     long:getLong,

@@ -12,7 +12,7 @@ import SmallLogo from './Module/SmallLogo'
 import Swipers from './Module/Swiper'
 import Btn from './Module/Btn'
 import{Container, Content, Header, Body, Left, Right,} from 'native-base'
-export default class Splash extends React.Component{
+export default class CSI11 extends React.Component{
     constructor(props){
         super(props)
         this.state={
@@ -21,7 +21,7 @@ export default class Splash extends React.Component{
         }
     }
     _Booking(){
-        this.props.navigation.navigate('Login','')
+        this.props.navigation.navigate('CUI10','')
     }
     render(){
         return(

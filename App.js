@@ -12,22 +12,20 @@ import {
     Image,
     Button
 }from 'react-native'
-import Login from './components/Login'
-import Splash from './components/Splash'
-import Intro from './components/Intro'
-import RegisterU from'./components/User/RegisterU'
-import CheckPhone from './components/CheckPhone'
-import VerifyPhone from './components/VerifyPhone'
+import CUI10 from './components/CUI10'
+import CSI11 from './components/CSI11'
+import CSI10 from './components/CSI10'
+import CUI13 from './components/CUI13'
+import CUI12 from './components/CUI12'
 import WaitForEccept from './components/User/WaitForEccept'
 import Swipers from './components/Module/Swiper'
 import CardSile from './components/CardSile'
-import MainCSM10 from './components/MainCSM10'
+import CSM10 from './components/CSM10'
 import PickLocation from './components/Module/PickLocation'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DrawerNav from './components/DrawerNav';
 import Help from './components/Help';
-import HomeScreen from './components/MainCSM10'
-import MyMapView from './components/Map/MyMapView'
+import HomeScreen from './components/CSM10'
 
 import CTB10 from './components/V-Tour/CTB10'
 import CTB11 from './components/V-Tour/CTB11'
@@ -42,36 +40,32 @@ import CTB18 from './components/V-Tour/CTB18'
 import TabChoose from './components/Module/TabChoose'
 import Drawer from './components/DrawerNav'
 import FormPicker from './components/Module/FormPicker'
-import WCTB11 from './components/Module/WCTB11'
 
 const Stack = StackNavigator({
-      
     Drawer:{screen:Drawer},
-    Login:{
-        screen:Login,
-        navigationOptions: { header: null}
-    },
-    Splash:{
-        screen:Splash,
-    },
-    Intro:{
-        screen:Intro,
-        navigationOptions:{header:null}
-    },
-    RegisterU:{
-        screen:RegisterU,
-        navigationOptions:{
-            title:'Đăng ký thông tin',
-            headerStyle:{
-                backgroundColor:'#00803f',
-            },
-        }
-    },
-    Login:{
-        screen:Login,
-        navigationOptions: { header: null}
-    }, 
     
+    CUI13:{
+        screen:CUI13,
+    },
+    CUI10:{
+        screen:CUI10,
+    },
+    CSI10:{
+        screen:CSI10,
+    },
+    CUI12:{
+        screen:CUI12,
+    
+    },
+    CSI11:{
+        screen:CSI11,
+    },
+   
+    CTB13:{screen:CTB13},
+    
+    CSM10:{
+        screen:CSM10
+    },
     CTB10:{screen:CTB10},
     
     CTB18:{screen:CTB18},
@@ -84,65 +78,24 @@ const Stack = StackNavigator({
     
     CTB14:{screen:CTB14},
     
-    CTB13:{screen:CTB13},
-    
     CTB12:{screen:CTB12},
     
-    WCTB11:{screen:WCTB11},
-    // Maps:{screen:Maps},
     
     CTB11:{screen:CTB11},
-    
-     // FormPicker:{scr  een:FormPicker},
-  
-     
-
-    
-    MyMapView:{screen:MyMapView},
-    
    
     Help:{screen:Help},
     
-    
-   
     HomeScreen:{
         screen:HomeScreen,
         navigationOptions: { header: null}},   
-     
-    Splash:{
-        screen:Splash,
-        navigationOptions:{header:null}
-        
-    },
-    
     
     Swipers:{
         screen:Swipers,
         navigationOptions:{header:null}
     },
 
-
     CardSile:{screen:CardSile}, 
 
-   
-    VerifyPhone:{
-        screen:VerifyPhone,
-        header: ({ goBack }) => ({
-            left: ( <Icon name={'chevron-left'} onPress={ () => { goBack() } }  /> ),  
-        }),
-        navigationOptions:{
-            title:'Xác Nhận',
-            headerStyle:{
-                backgroundColor:'#00803f',
-            },
-            
-            
-        }
-    },
-    CheckPhone:{
-        screen: CheckPhone
-    },
-    
     WaitForEccept:{
         screen:WaitForEccept
     }

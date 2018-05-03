@@ -16,7 +16,7 @@ import {DrawerItems} from 'react-navigation'
 import CardSile from './CardSile'
 import Btn from './Module/Btn'
 // import Dra from './Drawer/SildeBar'
-
+import Maps from './Module/Maps'
 import IOSPicker from 'react-native-ios-picker';
 import FormNote from './Module/FormNoteForDirver';
 import FormPayGift from './Module/FormPayGift';
@@ -38,11 +38,14 @@ import {
     List,
     ListItem,
     Thumbnail,
-}from'native-base'
-
+}from 'native-base'
 const TypeLabel = ['Personal', 'Business', 'Travel']
+var addFrom ='Điểm đón',addTo='Điểm đến'
+var num = '',street='',ward='',district='',province='',country=''
 
- class MainCSM10 extends React.Component{
+import SimplePicker from 'react-native-simple-picker';
+
+ class CSM10 extends React.Component{
     constructor(props){
         super(props)
         this.state={
@@ -65,6 +68,8 @@ const TypeLabel = ['Personal', 'Business', 'Travel']
             plDetail:'Hình thức chuyến đi',
             detail:'',
             noteDV:'',
+            ic_down:require('../source/icons/ic_dropdown.png'),
+            
 
         }
     }
@@ -101,60 +106,107 @@ const TypeLabel = ['Personal', 'Business', 'Travel']
         selected: value
         });
     }
+    _handleChoose(choose){
+        switch(choose){
+            case 'from':{
+                this.props.navigation.navigate('CTB11',{request:'CSM10from'})
+                break;
+            }
+            case 'to':{
+                this.props.navigation.navigate('CTB11',{request:'CSM10to'})
+                break;
+            }
+        }
+    
+    }
+    // componentWillMount(){
+    //     var {state}=this.props.navigation
+    //     request = state.params.answer
+    //     lat = state.params.lat
+    //     long = state.params.long
+    //     num = state.params.num
+    //     street = state.params.street
+    //     ward = state.params.ward
+    //     district = state.params.district
+    //     province = state.params.province
+    //     country = state.params.country
+
+    //     switch(request){
+    //         case 'from':{
+    //             fromLat = lat
+    //             fromLong = long 
+    //             addFrom = num + ', '+ street+', '+ ward + ', '+ district + ', '+ province + ', '+ country
+
+    //             break;
+    //         }
+    //         case 'to':{
+    //             toLat = lat
+    //             toLong = long 
+    //             addTo = num + ', '+ street+', '+ ward + ', '+ district + ', '+ province + ', '+ country
+                
+    //             break;
+    //         }
+    //     }
+        
+
+    // }
     render(){
         return(
             <View style={{flex:1, backgroundColor:'gray'}}>
-                <StatusBar
-                        backgroundColor="#008D44"
-                        barStyle="light-content"/>
+
                 <Container>
                 <Header style={styles.header} noShadow>
-                    <Button
-                        onPress={()=>{this.props.navigation.navigate('DrawerOpen')}}
-                        style={{ 
-                            height: '100%', 
-                            width: 50,
-                            backgroundColor:mainColor,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            position:'absolute',
-                            left:5   ,
-                            bottom:0,
-                            
-                        }}
-                            >
-                            <Image
-                                style={{tintColor:'white',height:25,width:25,alignSelf:'center'}}
-                                source={this.state.ic_menu}
-                            />
-                        </Button>
-                    <View style={{
-                            width:300,
-                            justifyContent:'center',
-                    }}>
-                       <Picker
-                        selectedValue={this.state.language}
-                        style={{ height: '80%', width: 200, backgroundColor:'white', marginLeft:30 }}
-                        onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
-                            <Picker.Item label={transport[0]} value={transport[0]} />
-                            <Picker.Item label={transport[1]} value={transport[1]} />
-                            <Picker.Item label={transport[2]} value={transport[3]} />
-                        </Picker>
-                    </View>
+                    <Left>
+                        <TouchableOpacity
+                            onPress={()=>{this.props.navigation.navigate('DrawerOpen')}}
+                            style={{ 
+                                height: '100%', 
+                                width: 50,
+                                justifyContent:'center',
+                                
+                            }}
+                                >
+                                <Image style={{tintColor:'white',height:25,width:25,alignSelf:'center'}}
+                                    source={this.state.ic_menu}/>
+                        </TouchableOpacity>
+                    </Left>
+                    <Body >
+                        <View style={{width:300,height:'100%',justifyContent:'center',
+                        alignItems:'center',}}>
+                        <TouchableOpacity
+                                    onPress={() => {
+                                        this.refs.picker2.show();
+                                    }}
+                                    style={styles.formPicker}>
+                                <Text  style={styles.labelPicker}>Travel</Text>
+                                <Image
+                                    source={this.state.ic_down}
+                                    style={styles.icDropDown}
+                                />
+                                </TouchableOpacity>
+                        <SimplePicker
+                                ref={'picker2'}
+                                options={TypeLabel}
+                                onSubmit={this.props.onSubmitType}
+                                />
+                        </View>
+                    </Body>
+                    <Right style={{width:0,height:0}}></Right>
                 </Header>
                 <View style={styles.container}>
+                    <Maps/>
                     <View style={{position:'absolute', height:'100%'}}>
                         <View style={{
-                                height:height*(18/100),
+                                height:height*(15/100),
                                 justifyContent:'center',
                                 alignItems:'center',
-                                marginBottom:10,
-                                width:width,
+                                width:'100%',
                             }}>
                             <PickLocation
-                                onPress={()=>{this._addLocation()}}
-                                PickFrom={(value)=>{this.setState({from:value})}}
-                                PickTo={(value)=>{this.setState({to:value})}}
+                                onPressPickFrom={()=>{this._handleChoose('from')}}
+                                txtFrom={addFrom}
+                                onPressPickTo = {()=>{this._handleChoose('to')}}
+                                txtTo={addTo}
                             />
                         </View>
                         {/* View Pay */}
@@ -178,7 +230,7 @@ const TypeLabel = ['Personal', 'Business', 'Travel']
                         {/* View Silde */}
                         <View style={{
                             alignSelf:'center',
-                            height:height*(23/100),
+                            height:height*(15/100),
                             width:width,
                         }}>
                             <CardSile/>
@@ -217,6 +269,7 @@ const avt={
     exit:require('../source/icons/ic_logout.png'),
 }
 
+const colortext = "gray"
 
 class RowForm3 extends React.Component{
     render(){
@@ -250,7 +303,7 @@ class RowForm3 extends React.Component{
         )
     }
 }
-export default MainCSM10;
+export default CSM10;
 const transport = ['Personal','Business','Travel']
 const {width,height} = Dimensions.get('window')
 const defaultWidth = width-20;
@@ -260,8 +313,27 @@ const colorContent='#C0D8BA';
 const colorBorder='#758084'
 const borderLine = 0.5
 const HLine = 55
-
 const styles=StyleSheet.create({
+    icDropDown:{height:15,width:15,alignSelf:'center'},
+    labelPicker:{
+        color:mainColor,
+        fontSize:20,
+        width:'70%',
+        alignSelf: 'center',
+    },
+    formPicker:{
+        height:'70%',
+        width:'95%',
+        alignSelf:'center',
+        justifyContent:'space-between',
+        flexDirection:'row',
+        alignSelf: 'center',
+        backgroundColor:'white',
+        borderRadius:5,
+        paddingLeft:10,
+        paddingRight: 10,
+
+    },
     viewLine:{width:'96%', alignSelf:'center'},
     ContainerForm4:{
         backgroundColor:'white',

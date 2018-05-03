@@ -8,17 +8,16 @@ import {
     Image
 }from 'react-native'
 
-export default class WCTB11 extends React.Component{
+export default class WCSM10 extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            cancel:'HỦY CHUYẾN',
             ic_wait:require('../../source/icons/ic_wifi.png')
         }
     }
     componentWillMount(){
         setTimeout(()=>{
-            this.props.navigation.navigate('CTB10',{answer:''})
+            this.props.navigation.navigate('MainCSM10',{answer:''})
         },1)
     }
     render(){
